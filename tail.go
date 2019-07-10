@@ -16,9 +16,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/pandry/tail/ratelimiter"
-	"github.com/pandry/tail/util"
-	"github.com/pandry/tail/watch"
+	"github.com/Pandry/tail/ratelimiter"
+	"github.com/Pandry/tail/util"
+	"github.com/Pandry/tail/watch"
 
 	tomb "gopkg.in/tomb.v1"
 )
