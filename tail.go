@@ -16,15 +16,10 @@ import (
 	"sync"
 	"time"
 
-<<<<<<< HEAD
-	"github.com/admpub/tail/ratelimiter"
-	"github.com/admpub/tail/util"
-	"github.com/admpub/tail/watch"
-=======
-	"github.com/hpcloud/tail/ratelimiter"
-	"github.com/hpcloud/tail/util"
-	"github.com/hpcloud/tail/watch"
->>>>>>> added line num to Line struct
+	"github.com/pandry/tail/ratelimiter"
+	"github.com/pandry/tail/util"
+	"github.com/pandry/tail/watch"
+
 	tomb "gopkg.in/tomb.v1"
 )
 
@@ -44,10 +39,10 @@ func NewLine(text string, lineNum int) *Line {
 	return &Line{text, lineNum, time.Now(), nil}
 }
 
-// SeekInfo represents arguments to `os.Seek`
+// SeekInfo represents arguments to `io.Seek`
 type SeekInfo struct {
 	Offset int64
-	Whence int // os.SEEK_*
+	Whence int // io.Seek*
 }
 
 type logger interface {
@@ -333,7 +328,7 @@ func (tail *Tail) Tell() (offset int64, err error) {
 	if tail.file == nil {
 		return
 	}
-	offset, err = tail.file.Seek(0, os.SEEK_CUR)
+	offset, err = tail.file.Seek(0, io.SeekCurrent)
 	if err != nil {
 		return
 	}
@@ -540,7 +535,7 @@ func (tail *Tail) waitForChanges() error {
 		var pos int64
 		var err error
 		if !tail.Pipe {
-			pos, err = tail.file.Seek(0, os.SEEK_CUR)
+			pos, err = tail.file.Seek(0, io.SeekCurrent)
 			if err != nil {
 				return err
 			}
@@ -601,7 +596,7 @@ func (tail *Tail) seekEnd() error {
 	if !tail.Pipe {
 		return nil
 	}
-	return tail.seekTo(SeekInfo{Offset: 0, Whence: os.SEEK_END})
+	return tail.seekTo(SeekInfo{Offset: 0, Whence: io.SeekEnd})
 }
 
 func (tail *Tail) seekTo(pos SeekInfo) error {
